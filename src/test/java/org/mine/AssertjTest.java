@@ -5,14 +5,14 @@ import org.mine.LoTR.*;
 import java.util.*;
 import static org.assertj.core.api.Assertions.*;
 
-public class Assertj {
+public class AssertjTest {
 
   @Test
   public void AssertjTest(){
 
     ArrayList<Object> fellowshipOfTheRing = new ArrayList<Object>();
 
-    Hobbit frodo = new Hobbit("Frodo");
+    Hobbit frodo = new Hobbit("Frodo", 32);
     Hobbit sam = new Hobbit("Sam");
     Wizard sauron = new Wizard("Sauron");
     fellowshipOfTheRing.add(frodo);
@@ -33,6 +33,8 @@ public class Assertj {
             .contains(frodo, sam)
             .doesNotContain(sauron);
 
-    System.out.println("Done");
+    // as() is used to describe the test and will be shown before the error message
+    assertThat(frodo.getAge()).as("check %s's age", frodo.getName()).isEqualTo(33);
+
   }
 }
