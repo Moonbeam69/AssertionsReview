@@ -34,7 +34,7 @@ public class AssertjTest {
             .doesNotContain(sauron);
 
     // as() is used to describe the test and will be shown before the error message
-    assertThat(frodo.getAge()).as("check %s's age", frodo.getName()).isEqualTo(33);
+    assertThat(frodo.getAge()).as("check %s's age", frodo.getName()).isEqualTo(32);
 
   }
 }

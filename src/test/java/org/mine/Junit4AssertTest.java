@@ -1,34 +1,37 @@
 package org.mine;
 
-import org.junit.jupiter.api.*;
+import org.junit.*;
 import org.mine.LoTR.*;
-import java.util.*;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
 
-public class Junit5AssertTest {
+import java.util.*;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.*;
+
+public class Junit4AssertTest {
 
   @Test
-  public void Junit5AssertTest() {
+  public void Junit4AssertTest() {
 
-    ArrayList<Object> fellowshipOfTheRing = new ArrayList<Object>();
-
-    Hobbit frodo = new Hobbit("Frodo", 33);
+    ArrayList<Hobbit> fellowshipOfTheRing = new ArrayList<>();
+    String[] HobbitNames = {"Sam", "Frodo"};
+    int age = 33;
+    Hobbit frodo = new Hobbit("Frodo", age);
     Hobbit sam = new Hobbit("Sam");
     Wizard sauron = new Wizard("Sauron");
     fellowshipOfTheRing.add(frodo);
     fellowshipOfTheRing.add(sam);
 
     // basic assertions
-    /*
-       assertThat(frodo.getName()).isEqualTo("Frodo");
-       assertThat(frodo).isNotEqualTo(sauron);
-    */
     assertEquals(frodo.getName(), "Frodo");
     assertNotEquals(frodo, sauron);
+    assertTrue(frodo.getName()=="Frodo");
+    assertFalse(age==32);
+    assertNotNull(fellowshipOfTheRing);
+
+    // array assertion
+    assertArrayEquals(HobbitNames, HobbitNames);
 
     // chaining string specific assertions
     /*
@@ -56,12 +59,12 @@ public class Junit5AssertTest {
     // as() is used to describe the test and will be shown before the error message
     // assertThat(frodo.getAge()).as("check %s's age", frodo.getName()).isEqualTo(33);
 
-    assertEquals(frodo.getAge(), 33, "check " + frodo.getName() + "'s age");
+    assertEquals("check " + frodo.getName() + "'s age", frodo.getAge(), 33);
 
   }
 
-  @Test
-  public void Junit5AssertHamcrestTest() {
+  //@Test
+  public void Junit4AssertHamcrestTest() {
     //JUnit test using Hamcrest matchers
 
     ArrayList<Object> fellowshipOfTheRing = new ArrayList<Object>();
@@ -106,7 +109,7 @@ public class Junit5AssertTest {
     // as() is used to describe the test and will be shown before the error message
     // assertThat(frodo.getAge()).as("check %s's age", frodo.getName()).isEqualTo(33);
 
-    assertEquals(frodo.getAge(), 33, "check " + frodo.getName() + "'s age");
+    assertEquals("check " + frodo.getName() + "'s age", frodo.getAge(), 33);
 
   }
 }
