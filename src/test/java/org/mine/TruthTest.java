@@ -15,6 +15,7 @@ public class TruthTest {
   static Hobbit frodo;
   static Hobbit sam;
   static Wizard sauron;
+  static int age;
 
   @BeforeAll
   public static void Setup() {

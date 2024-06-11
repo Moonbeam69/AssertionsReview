@@ -61,6 +61,11 @@ public class Junit5AssertTest {
   }
 
   @Test
+  public void AssertjTest_GroupedAssertions() {
+    Assertions.assertAll("Grouped assertion", () -> Assertions.assertEquals("Frodo", "frodo"), () -> Assertions.assertEquals("Sam", "sam"));
+  }
+
+  @Test
   public void Junit5AssertHamcrestTest() {
     //JUnit test using Hamcrest matchers
 
