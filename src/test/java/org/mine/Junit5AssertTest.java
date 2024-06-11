@@ -1,117 +1,83 @@
 package org.mine;
 
-import org.junit.jupiter.api.*;
+import org.junit.*;
 import org.mine.LoTR.*;
+
+import java.time.*;
 import java.util.*;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Junit5AssertTest {
 
-  @Test
-  public void Junit5AssertTest() {
+  static ArrayList<Object> fellowshipOfTheRing;
+  static String[] HobbitNames;
+  static Hobbit frodo;
+  static Hobbit sam;
+  static Wizard sauron;
+  static int age;
 
-    ArrayList<Object> fellowshipOfTheRing = new ArrayList<Object>();
+    @BeforeClass
+    public static void Setup() {
+      fellowshipOfTheRing = new ArrayList<Object>();
+      HobbitNames = new String[]{"Sam", "Frodo"};
+      frodo = new Hobbit("Frodo", 33);
+      sam = new Hobbit("Sam");
+      sauron = new Wizard("Sauron");
+      fellowshipOfTheRing.add(frodo);
+      fellowshipOfTheRing.add(sam);
+      age = 33;
+    }
 
-    Hobbit frodo = new Hobbit("Frodo", 33);
-    Hobbit sam = new Hobbit("Sam");
-    Wizard sauron = new Wizard("Sauron");
-    fellowshipOfTheRing.add(frodo);
-    fellowshipOfTheRing.add(sam);
+    @org.junit.jupiter.api.Test
+    public void testBasic() {
 
-    // basic assertions
-    /*
-       assertThat(frodo.getName()).isEqualTo("Frodo");
-       assertThat(frodo).isNotEqualTo(sauron);
-    */
-    assertEquals(frodo.getName(), "Frodo");
-    assertNotEquals(frodo, sauron);
+      // basic assertions
+      assertEquals(frodo.getName(), "Frodo");
+      assertNotEquals(frodo, sauron);
+      assertTrue(frodo.getName()=="Frodo");
+      assertFalse(age==32);
+      assertNotNull(fellowshipOfTheRing);
 
-    // chaining string specific assertions
-    /*
-        assertThat(frodo.getName()).startsWith("Fro")
-                                   .endsWith("do")
-                                   .isEqualToIgnoringCase("frodo");
-    */
+      // array assertion
+      assertArrayEquals(HobbitNames, HobbitNames);
 
-    assertEquals(frodo.getName().substring(0, 3), "Fro");
-    assertEquals(frodo.getName().substring("Frodo".length() - 2), "do");
-    assertEquals(frodo.getName(), "Frodo");
+      // No collection specific assertions, but still possible
+      assertEquals(fellowshipOfTheRing.size(), 2);
+      assertEquals(fellowshipOfTheRing.contains(frodo) && fellowshipOfTheRing.contains(sam), true);
+      assertEquals(fellowshipOfTheRing.contains(sauron), false);
 
-    // collection specific assertions (there are plenty more)
-    /* in the examples below fellowshipOfTheRing is a List<Hobbit>
+      // messages
+      assertEquals(frodo.getAge(), 33, "check " + frodo.getName() + "'s age");
 
-        assertThat(fellowshipOfTheRing).hasSize(2)
-                                       .contains(frodo, sam)
-                                       .doesNotContain(sauron);
-    */
+    }
+    @org.junit.jupiter.api.Test
+    public void testExpectedExceptions() {
+      assertThrows(  Exception.class,   () -> {
+        throw new Exception("This is an error message");
+      });
+    }
 
-    assertEquals(fellowshipOfTheRing.size(), 2);
-    assertEquals(fellowshipOfTheRing.contains(frodo) && fellowshipOfTheRing.contains(sam), true);
-    assertEquals(fellowshipOfTheRing.contains(sauron), false);
 
-    // as() is used to describe the test and will be shown before the error message
-    // assertThat(frodo.getAge()).as("check %s's age", frodo.getName()).isEqualTo(33);
+    @org.junit.jupiter.api.Test
+    public void testTimeout()  {
+      assertTimeout(Duration.ofSeconds(2), () -> {
+        // Code that should complete within 2   seconds
+        Thread.sleep(1000);
+      });
 
-    assertEquals(frodo.getAge(), 33, "check " + frodo.getName() + "'s age");
+    }
 
-  }
+  @org.junit.jupiter.api.Test
+    public void testNotTimeout() throws InterruptedException {
+    assertTimeout(Duration.ofMillis(1000), () -> {
+      // Code that should complete within 2   seconds
+      Thread.sleep(900);
+    });
+    }
 
-  @Test
-  public void AssertjTest_GroupedAssertions() {
-    Assertions.assertAll("Grouped assertion", () -> Assertions.assertEquals("Frodo", "frodo"), () -> Assertions.assertEquals("Sam", "sam"));
-  }
-
-  @Test
-  public void Junit5AssertHamcrestTest() {
-    //JUnit test using Hamcrest matchers
-
-    ArrayList<Object> fellowshipOfTheRing = new ArrayList<Object>();
-
-    Hobbit frodo = new Hobbit("Frodo",33);
-    Hobbit sam = new Hobbit("Sam");
-    Wizard sauron = new Wizard("Sauron");
-    fellowshipOfTheRing.add(frodo);
-    fellowshipOfTheRing.add(sam);
-
-    // basic assertions
-    /*
-       assertThat(frodo.getName()).isEqualTo("Frodo");
-       assertThat(frodo).isNotEqualTo(sauron);
-    */
-    assertThat(frodo.getName(), is(equalTo("Frodo")));
-    assertThat(frodo, is(not(sauron)));
-
-    // chaining string specific assertions
-    /*
-        assertThat(frodo.getName()).startsWith("Fro")
-                                   .endsWith("do")
-                                   .isEqualToIgnoringCase("frodo");
-    */
-
-    assertThat(frodo.getName().substring(0, 3),  is(equalTo("Fro")));
-    assertThat(frodo.getName().substring("Frodo".length() - 2), is(equalTo("do")));
-    assertEquals(frodo.getName().toLowerCase(), "Frodo".toLowerCase());
-
-    // collection specific assertions (there are plenty more)
-    /* in the examples below fellowshipOfTheRing is a List<Hobbit>
-
-        assertThat(fellowshipOfTheRing).hasSize(2)
-                                       .contains(frodo, sam)
-                                       .doesNotContain(sauron);
-    */
-
-    assertEquals(fellowshipOfTheRing.size(), 2);
-    assertEquals(fellowshipOfTheRing.contains(frodo) && fellowshipOfTheRing.contains(sam), true);
-    assertEquals(fellowshipOfTheRing.contains(sauron), false);
-
-    // as() is used to describe the test and will be shown before the error message
-    // assertThat(frodo.getAge()).as("check %s's age", frodo.getName()).isEqualTo(33);
-
-    assertEquals(frodo.getAge(), 33, "check " + frodo.getName() + "'s age");
-
-  }
+    @org.junit.Test
+    public void testAssertMessage() {
+      assertEquals("assert Frodo's name", frodo.getName(), "Frodo!");
+    }
 }

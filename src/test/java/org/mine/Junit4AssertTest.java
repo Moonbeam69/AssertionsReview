@@ -28,7 +28,7 @@ public class Junit4AssertTest {
   }
 
   @Test
-  public void Junit4Test_Basic() {
+  public void testBasic() {
 
     // basic assertions
     assertEquals(frodo.getName(), "Frodo");
@@ -51,7 +51,7 @@ public class Junit4AssertTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void testExceptionWithExpected() {
+  public void testExpectedExceptions() {
 
     // Code that is expected to throw an Exception (IllegalArgumentException)
     throw new IllegalArgumentException("This is an error message");
@@ -59,16 +59,16 @@ public class Junit4AssertTest {
 
   @Test(timeout = 100)
   public void testTimeout() throws InterruptedException {
-    Thread.sleep(101); // Example: simulating an unacceptable delay
+    Thread.sleep(101); // simulating an unacceptable delay
   }
 
   @Test(timeout = 100)
   public void testNotTimeout() throws InterruptedException {
-    Thread.sleep(80); // Example: simulating an acceptable delay
+    Thread.sleep(80); // simulating an acceptable delay
   }
 
   @Test
-  public void AssertjTest_Messages() {
+  public void testAssertMessage() {
     assertEquals("assert Frodo's name", frodo.getName(), "Frodo!");
   }
 }
