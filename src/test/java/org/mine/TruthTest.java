@@ -9,7 +9,7 @@ import java.util.*;
 import static java.lang.Thread.*;
 import static org.assertj.core.api.Assertions.*;
 
-public class TruthAssertTest {
+public class TruthTest {
   static ArrayList<Object> fellowshipOfTheRing;
   static String[] HobbitNames;
   static Hobbit frodo;
@@ -63,15 +63,16 @@ public class TruthAssertTest {
 
     try {
       // Code that is expected to throw the exception
-      throw new IllegalArgumentException("This is an error message");
-    } catch (IllegalArgumentException e) {
+      int i = 1 / 0;
+
+    } catch (Exception e) {
       // Use Truth to assert properties of the exception
-      assertThat(e).hasMessageContaining("This is an error message");
-      //return; // Test passes if exception is caught
+      assertThat(e).hasMessageContaining("/ by zero");
+      return; // Test passes if exception is caught
     }
 
     // If no exception is thrown, the test should fail
-    //throw new AssertionError("Expected IllegalArgumentException to be thrown");
+    throw new AssertionError("Expected DivisionByZero exception to be thrown");
   }
 
   @Test
@@ -81,6 +82,12 @@ public class TruthAssertTest {
     });
   }
 
+  @Test
+  public void TruthTest_NotTimeout() {
+    Assertions.assertTimeout(Duration.ofMillis(100), () -> {
+      sleep(80);
+    });
+  }
 
   @Test
   public void TruthTest_Messages() {
