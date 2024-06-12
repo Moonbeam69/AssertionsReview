@@ -1,10 +1,11 @@
 package org.mine;
 
 import org.junit.*;
-import org.mine.LoTR.*;
+import org.mine.LoTR.Hobbit;
+import org.mine.LoTR.Wizard;
 
-import java.time.*;
-import java.util.*;
+import java.time.Duration;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,6 +79,6 @@ public class Junit5AssertTest {
 
     @org.junit.Test
     public void testAssertMessage() {
-      assertEquals("assert Frodo's name", frodo.getName(), "Frodo!");
+      assertEquals( frodo.getName(), "Frodo!", "assert Frodo's name");
     }
 }

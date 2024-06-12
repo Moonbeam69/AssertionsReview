@@ -1,9 +1,10 @@
 package org.mine;
 
 import org.junit.jupiter.api.*;
-import org.mine.LoTR.*;
+import org.mine.LoTR.Hobbit;
+import org.mine.LoTR.Wizard;
 
-import java.util.*;
+import java.util.ArrayList;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -32,17 +33,7 @@ public class Junit4HamcrestAssertTest {
   }
 
   @Test
-  public void Junit4AssertHamcrestTest() {
-
-    //JUnit test using Hamcrest matchers
-
-    ArrayList<Object> fellowshipOfTheRing = new ArrayList<Object>();
-
-    Hobbit frodo = new Hobbit("Frodo",age);
-    Hobbit sam = new Hobbit("Sam");
-    Wizard sauron = new Wizard("Sauron");
-    fellowshipOfTheRing.add(frodo);
-    fellowshipOfTheRing.add(sam);
+  public void Test_Basic() {
 
     // basic assertions
     assertThat(frodo.getName(), is(equalTo("Frodo")));

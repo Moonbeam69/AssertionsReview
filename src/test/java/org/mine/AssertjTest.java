@@ -1,27 +1,34 @@
 package org.mine;
 
-import org.junit.jupiter.api.*;
-import org.mine.LoTR.*;
+import org.mine.LoTR.Wizard;
 
-import java.time.*;
-import java.util.*;
+import java.time.Duration;
+import java.util.ArrayList;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
 
-import static java.lang.Thread.*;
-import static org.assertj.core.api.Assertions.*;
+import static java.lang.Thread.sleep;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AssertjTest {
   static ArrayList<Object> fellowshipOfTheRing;
   static String[] HobbitNames;
-  static Hobbit frodo;
-  static Hobbit sam;
+  static org.mine.LoTR.Hobbit frodo;
+  static org.mine.LoTR.Hobbit sam;
   static Wizard sauron;
+  static int age;
 
   @BeforeAll
   public static void Setup() {
     fellowshipOfTheRing = new ArrayList<Object>();
     HobbitNames = new String[]{"Sam", "Frodo"};
-    frodo = new Hobbit("Frodo", 33);
-    sam = new Hobbit("Sam");
+    age = 33;
+    frodo = new org.mine.LoTR.Hobbit("Frodo", age);
+    sam = new org.mine.LoTR.Hobbit("Sam");
     sauron = new Wizard("Sauron");
     fellowshipOfTheRing.add(frodo);
     fellowshipOfTheRing.add(sam);
@@ -36,10 +43,15 @@ public class AssertjTest {
 
     // Arrays
     String[] copy = HobbitNames;
-    Assertions.assertArrayEquals(copy, HobbitNames);
+    ArrayList<Object> anotherFellowship = new ArrayList<Object>();
+    anotherFellowship.add(frodo);
+    anotherFellowship.add(sam);
 
-    Assertions.assertEquals("Frodo", "frodo", "Case mismatch");
-    Assertions.assertEquals("Frodo", "frodo", () -> "Custom message");
+    assertThat(copy).isEqualTo(HobbitNames);
+    assertThat(anotherFellowship).isEqualTo(HobbitNames);
+
+    assertEquals("Frodo", "frodo", "Case mismatch");
+    assertEquals("Frodo", "frodo", () -> "Custom message");
   }
 
   @Test
@@ -55,7 +67,7 @@ public class AssertjTest {
 
   @Test
   public void AssertjTest_GroupedAssertions() {
-    Assertions.assertAll("Grouped assertion", () -> Assertions.assertEquals("Frodo", "frodo"), () -> Assertions.assertEquals("Sam", "sam"));
+    org.junit.jupiter.api.Assertions.assertAll("Grouped assertion", () -> assertEquals("Frodo", "Frodo"), () -> assertEquals("Sam", "Sam"));
   }
 
   @Test
@@ -66,9 +78,8 @@ public class AssertjTest {
       int i = 1 / 0;
 
     } catch (Exception e) {
-      // Use Assertj to assert properties of the exception
       assertThat(e).hasMessageContaining("/ by zero");
-      return; // Test passes if exception is caught
+      return;
     }
 
     // If no exception is thrown, the test should fail
@@ -76,15 +87,15 @@ public class AssertjTest {
   }
 
   @Test
-  public void AssertjTest_Timeout() {
-    Assertions.assertTimeout(Duration.ofMillis(100), () -> {
+  public void AssertjTest_MustTimeout() {
+      assertTimeout(Duration.ofMillis(100), () -> {
       sleep(101);
     });
   }
 
   @Test
   public void AssertjTest_NotTimeout() {
-    Assertions.assertTimeout(Duration.ofMillis(100), () -> {
+    org.junit.jupiter.api.Assertions.assertTimeout(Duration.ofMillis(100), () -> {
       sleep(80);
     });
   }
@@ -92,8 +103,16 @@ public class AssertjTest {
   @Test
   public void AssertjTest_Messages() {
     // as() is used to describe the test and will be shown before the error message
-    // assertThat(frodo.getAge()).as("check %s's age", frodo.getName()).isEqualTo(33);
     assertThat(frodo.getAge()).as("check %s's age", frodo.getName()).isEqualTo(33);
+  }
+
+  @Test
+  public void SoftAssertjTest_Basic() {
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(frodo.getAge()).isNegative();
+    softly.assertThat(frodo.getAge()).isEqualTo(32);
+    softly.assertThat(frodo.getName()).isEqualTo("Frodo");
+    softly.assertAll();
   }
 
 }

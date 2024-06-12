@@ -1,9 +1,10 @@
 package org.mine;
 
 import org.junit.*;
-import org.mine.LoTR.*;
+import org.mine.LoTR.Hobbit;
+import org.mine.LoTR.Wizard;
 
-import java.util.*;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 

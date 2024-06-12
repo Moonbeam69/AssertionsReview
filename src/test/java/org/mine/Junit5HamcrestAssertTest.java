@@ -1,19 +1,21 @@
 package org.mine;
 
 import org.junit.jupiter.api.*;
-import org.mine.LoTR.*;
+import org.mine.LoTR.Hobbit;
+import org.mine.LoTR.Wizard;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Junit5HamcrestAssertTest {
 
   @Test
-  public void Junit5AssertTest() {
+  public void Test_Basic() {
 
     ArrayList<Object> fellowshipOfTheRing = new ArrayList<Object>();
 

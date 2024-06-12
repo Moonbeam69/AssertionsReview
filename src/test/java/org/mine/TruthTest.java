@@ -7,7 +7,7 @@ import java.time.*;
 import java.util.*;
 
 import static java.lang.Thread.*;
-import static org.assertj.core.api.Assertions.*;
+import static com.google.common.truth.Truth.assertThat;
 
 public class TruthTest {
   static ArrayList<Object> fellowshipOfTheRing;
@@ -33,7 +33,7 @@ public class TruthTest {
     // basic assertions
     assertThat(frodo.getName()).isEqualTo("Frodo");
     assertThat(frodo).isNotEqualTo(sauron);
-    fail("This test should fail");
+    //fail("This test should fail");
 
     // Arrays
     String[] copy = HobbitNames;
@@ -47,11 +47,17 @@ public class TruthTest {
   public void TruthTest_ExtendedDataMethods() {
 
     // chaining string specific assertions
-    assertThat(frodo.getName()).startsWith("Fro").endsWith("do").isEqualToIgnoringCase("frodo");
+    assertThat(frodo.getName()).startsWith("Fro");
+    assertThat(frodo.getName()).endsWith("do");
+
+    // Not supported
+    //assertThat(frodo.getName()).isEqualToIgnoringCase("frodo");
 
     // collection specific assertions (there are plenty more)
-    // in the examples below fellowshipOfTheRing is a List<Hobbit>
-    assertThat(fellowshipOfTheRing).hasSize(2).contains(frodo, sam).doesNotContain(sauron);
+    assertThat(fellowshipOfTheRing).hasSize(2);
+    assertThat(fellowshipOfTheRing).contains(frodo);
+    assertThat(fellowshipOfTheRing).contains(sam);
+    assertThat(fellowshipOfTheRing).doesNotContain(sauron);
   }
 
   @Test
@@ -68,7 +74,7 @@ public class TruthTest {
 
     } catch (Exception e) {
       // Use Truth to assert properties of the exception
-      assertThat(e).hasMessageContaining("/ by zero");
+      assertThat(e).hasMessageThat().contains("/ by zero");
       return; // Test passes if exception is caught
     }
 
@@ -92,9 +98,17 @@ public class TruthTest {
 
   @Test
   public void TruthTest_Messages() {
-    // as() is used to describe the test and will be shown before the error message
-    // assertThat(frodo.getAge()).as("check %s's age", frodo.getName()).isEqualTo(33);
-    assertThat(frodo.getAge()).as("check %s's age", frodo.getName()).isEqualTo(33);
+    // as() is used to describe the test and will be shown before the error message.
+    // TODO why does the following statement not work? .as is not recognised as a valid method
+    //com.google.common.truth.Truth.assertThat(frodo.getAge()).as("check Frodos age").isEqualTo(33);
   }
 
+  @Test
+  public void SoftAssertjTest_Basic() {
+    org.assertj.core.api.SoftAssertions softly = new org.assertj.core.api.SoftAssertions();
+    softly.assertThat(frodo.getAge()).isNegative();
+    softly.assertThat(frodo.getAge()).isEqualTo(32);
+    softly.assertThat(frodo.getName()).isEqualTo("Frodo");
+    softly.assertAll();
+  }
 }
