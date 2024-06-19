@@ -1,17 +1,15 @@
 package org.mine;
 
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.*;
 import org.mine.LoTR.Wizard;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeAll;
 
 import static java.lang.Thread.sleep;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AssertjTest {
@@ -113,6 +111,27 @@ public class AssertjTest {
     softly.assertThat(frodo.getAge()).isEqualTo(32);
     softly.assertThat(frodo.getName()).isEqualTo("Frodo");
     softly.assertAll();
+  }
+
+  @Test
+  public void TestFluency() {
+    assertThat("abd").isEqualTo("abd").isNotEqualTo("def");
+  }
+
+  @Test
+  public void TestDate1() {
+    java.time.LocalDateTime today = java.time.LocalDateTime.now();
+    java.time.LocalDateTime past  = java.time.LocalDateTime.of(2023, 6, 17, 14, 30, 0);
+    assertThat(today).isAfter(past);
+  }
+
+  @Test
+  public void TestDate2() {
+    java.util.Date today = new java.util.Date();
+    java.util.Calendar calendar = java.util.Calendar.getInstance();
+    calendar.set(2023, java.util.Calendar.JUNE, 17, 12, 0, 0);
+    java.util.Date past = calendar.getTime();
+    assertThat(today).isAfter(past);
   }
 
 }

@@ -1,13 +1,16 @@
 package org.mine;
 
 import org.junit.jupiter.api.*;
-import org.mine.LoTR.*;
+import org.mine.LoTR.Hobbit;
+import org.mine.LoTR.Wizard;
 
-import java.time.*;
-import java.util.*;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import static java.lang.Thread.*;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Thread.sleep;
 
 public class TruthTest {
   static ArrayList<Object> fellowshipOfTheRing;
@@ -58,6 +61,20 @@ public class TruthTest {
     assertThat(fellowshipOfTheRing).contains(frodo);
     assertThat(fellowshipOfTheRing).contains(sam);
     assertThat(fellowshipOfTheRing).doesNotContain(sauron);
+  }
+
+  @Test
+  public void TruthTest_Fluency() {
+
+    // CANNOT GET THIS TO WORK:
+
+//    List<String> list = Arrays.asList("apple", "banana", "cherry");
+//    com.google.common.truth.Truth.assertThat(list)
+//            .isNotEmpty()
+//            .hasSize(3)
+//            .contains("banana")
+//            .containsExactly("apple", "banana", "cherry")
+//            .inOrder();
   }
 
   @Test
